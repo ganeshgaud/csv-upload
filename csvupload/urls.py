@@ -17,10 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from testapp.views import (
     file_upload,
+    downloadcsv
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('csv/', file_upload),
+    path('download/',downloadcsv),
+
 
 ]

@@ -3,6 +3,7 @@ from .models import Student
 from .forms import StudentForm
 import csv,io
 from django.contrib import messages
+from django.http import HttpResponse
 
 def file_upload(request):
     template='csvupload.html'
@@ -31,3 +32,17 @@ def file_upload(request):
         )
     context1={}
     return render(request,template,context1)
+
+
+def downloadcsv(request):
+    items=Student.objects.all()
+    response=HttpResponse(content_type='text/csv')
+    response['Content-Disposition']='attachment; filename="demo.csv"'
+
+    writer=csv.writer(response, delimiter=',')
+    writer.writerow(['Username','college_name','std_cell_no','emai_id'])
+
+    for obj in items:
+        writer.writerow([obj.username,obj.college_name,obj.std_cell_no,obj.emai_id])
+
+    return response
